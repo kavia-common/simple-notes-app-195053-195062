@@ -1,82 +1,49 @@
-# Lightweight React Template for KAVIA
+# Simple Notes Frontend (React)
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
-
-## Features
-
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+A lightweight notes UI that supports add/edit/delete and works even when the backend is unreachable by falling back to `localStorage`.
 
 ## Getting Started
 
-In the project directory, you can run:
+From this folder:
 
-### `npm start`
-
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-### `npm test`
-
-Launches the test runner in interactive watch mode.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-## Customization
-
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
+```bash
+npm install
+npm start
 ```
 
-### Components
+Open http://localhost:3000.
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+## Backend Configuration (Environment Variables)
 
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
+The app calls a REST API under:
 
-## Learn More
+- `GET /notes`
+- `POST /notes`
+- `PUT /notes/:id`
+- `DELETE /notes/:id`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Configure the base URL using either of the following (preference order shown):
 
-### Code Splitting
+1. `REACT_APP_API_BASE` (preferred)
+2. `REACT_APP_BACKEND_URL` (fallback)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Examples:
 
-### Analyzing the Bundle Size
+- Local backend:
+  - `REACT_APP_API_BASE=http://localhost:8000`
+- Deployed backend:
+  - `REACT_APP_API_BASE=https://your-backend.example.com`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+If the backend is unavailable, the app automatically switches to **Offline mode** and saves notes to `localStorage` under the key `notes_fallback`.
 
-### Making a Progressive Web App
+## Testing (CI-friendly)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+CI=true npm test
+```
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Tests cover:
+- Empty state and list rendering
+- Creating, editing, and deleting notes
+- Offline/local fallback behavior when `fetch` fails
+"
